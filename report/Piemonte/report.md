@@ -18,7 +18,7 @@ hospitalized | in ICU | home isolation
 *1045* |*186* |*174*
 *(+319*) |*(+15*) |*(+41*)
 ***
-##### Growth rate is 0.36 (8 days smoothing is 0.21)
+##### Growth rate is 0.36 (6 days smoothing is 0.23)
 - *time to 2x* is 2.23 days
 - *time to 10x* is 7.41 days
 ![stats][stats]
@@ -26,15 +26,15 @@ hospitalized | in ICU | home isolation
 ##### Dynamic forecast with a slow decreasing growth rate
 after 3 days | after 5 days | after 10 days | after 20 days | after 30 days
 :---: | :---: | :---: | :---: | :---:
-*350* |*501* |*1516* |*8172* |*28181*
+*82* |*143* |*501* |*4029* |*17456*
 ##### Dynamic forecast with a fast decreasing growth rate
 after 3 days | after 5 days | after 10 days | after 20 days | after 30 days
 :---: | :---: | :---: | :---: | :---:
-*350* |*501* |*1516* |*7647* |*21077*
+*82* |*143* |*501* |*3944* |*13785*
 ##### Dynamic forecast with a super fast decreasing growth rate
 after 3 days | after 5 days | after 10 days | after 20 days | after 30 days
 :---: | :---: | :---: | :---: | :---:
-*350* |*501* |*1516* |*6684* |*11577*
+*82* |*143* |*501* |*3777* |*8458*
 
 
 ![dynamic_forecast][dynamic_forecast]

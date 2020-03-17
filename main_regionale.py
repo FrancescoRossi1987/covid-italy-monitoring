@@ -14,8 +14,8 @@ def moving_average(a: np.array, n: int = 3) -> np.array:
     return ret[n - 1:] / n
 
 #####################
-numAveDays = 8
-forecastDays = 20
+numAveDays = 6
+forecastDays = 15
 #####################
 
 
@@ -47,7 +47,8 @@ infected = np.array(infected_list, dtype=np.int32)
 new_infected = infected[-1] - infected[-2]
 growth_rate = (infected[1:] - infected[:-1]) / infected[:-1]
 avg_growth_rate = moving_average(growth_rate, numAveDays)
-coeff = sum(growth_rate[-numAveDays:])/numAveDays
+#coeff = sum(growth_rate[-numAveDays:])/numAveDays
+coeff = avg_growth_rate[-1:]
 
 
 # x = (1 + growth_rate)^t
@@ -197,7 +198,7 @@ with plt.xkcd():
     plt.savefig('report/dynamic_forecast_ITA_abs.png')
 
 
-
+print('ITA tot: ', infected_dyn_forecast_super_optimistic[-1])
 
 #### ANALISI SU BASE REGIONALE E OTTENIMENTO ANDAMENTO NAZIONALE
 
@@ -218,7 +219,7 @@ start2 = True
 
 for regione in regioni:
 
-    print('### ',regione,' in process...')
+    print('# ',regione)
 
     raw_data = requests.get('https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json'
                             '/dpc-covid19-ita-regioni.json')
@@ -257,9 +258,9 @@ for regione in regioni:
     #print('       growth_rate: ', growth_rate)
     avg_growth_rate = moving_average(growth_rate, numAveDays)
     #print('       avg_growth_rate: ', avg_growth_rate)
-    #coeff = sum(avg_growth_rate[-numAveDays:])/numAveDays
-    coeff = sum(growth_rate[-numAveDays:])/numAveDays
-    print('       coeff: ', coeff)
+    #coeff = sum(growth_rate[-numAveDays:])/numAveDays
+    coeff = avg_growth_rate[-1:]
+    #print('       coeff: ', coeff)
      
 
     # x = (1 + growth_rate)^t
@@ -314,6 +315,7 @@ for regione in regioni:
         infected_dyn_forecast_optimistic_ITA += np.asarray(infected_dyn_forecast_optimistic)
         infected_dyn_forecast_super_optimistic_ITA += np.asarray(infected_dyn_forecast_super_optimistic)
 
+    print()
 
     with open(pathlib.Path() / 'report' / str(regione) / 'report.md', 'w') as f:
         f.write("<div align='center'>\n\n")
@@ -422,7 +424,7 @@ for regione in regioni:
                 label='dynamic forecast\nw/ a super fast decreasing growth rate (super optimistic)')
         ax.plot(dates, infected, 'o-', label='actual')
 
-        ax.set_title(f'infected in the next {N} days - '+regione)
+        ax.set_title(f'infected in the next {N} days - '+regione+' (AVG={numAveDays})')
         ax.legend(loc='upper left')
 
         plt.savefig('report/'+regione+'/dynamic_forecast_'+regione+'.png')
@@ -446,3 +448,4 @@ with plt.xkcd():
 
     plt.savefig('report/dynamic_forecast_ITA_fromREGIONS.png')
 
+print('ITA_regions tot: ', infected_dyn_forecast_super_optimistic_ITA[-1])
